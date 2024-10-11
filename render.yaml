@@ -1,5 +1,5 @@
 services:
- - name: teset
+ - name: nodeTube
    plan: free
    type: web
    runtime: node
