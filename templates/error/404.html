@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+{{! 降ってくる内容：requesturlの中にリクエストされたURLが入ってる}}
+<head>
+    <meta charset="UTF-8">
+    <title>404なんよ</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <style>
+        .back{
+            position:fixed;
+            width:100%;
+            height:100vh;
+            background: linear-gradient(#fff, #000);
+            z-index:-2;
+        }
+        .back-touka{
+            position:fixed;
+            width:100%;
+            height:100vh;
+            z-index:-1;
+            backdrop-filter:blur(4px) brightness(70%);
+            --webkit-backdrop-filter:blur(4px) brightness(70%);
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+        .not{
+            width: 100vw;
+            display: table-cell;
+            vertical-align: middle;
+            height: 100vh;
+        }
+        .found{
+            display:flex;
+            justify-content: center;
+        }
+        .your{
+            overflow-wrap: no-wrap;
+            overflow-x: scroll;
+            scrollbar-width: none;
+            color:#fff;
+            max-width:80vw;
+        }
+    </style>
+</head>
+<body>
+    <span class="back"></span>
+    <span class="back-touka"></span>
+    <div class="not">
+        <div class="found">
+            <div class="your">
+                <span class="request">{{requesturl}}</span><br>
+                がこのサイトに見つからないよ!!
+            </div>
+        </div>
+    </div>
+</body>
