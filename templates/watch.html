@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+{{! 降ってくる内容：returnedの中にrunした結果が入ってる}}
+<head>
+    <meta charset="UTF-8">
+    <title>200なんよ</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <style>
+        .back{
+            position:fixed;
+            width:100%;
+            height:100vh;
+            background: linear-gradient(#fff, #ccc);
+            z-index:-2;
+        }
+        .back-touka{
+            position:fixed;
+            width:100%;
+            height:100vh;
+            z-index:-1;
+            backdrop-filter:blur(4px) brightness(70%);
+            --webkit-backdrop-filter:blur(4px) brightness(70%);
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .center{
+            width:100vw;
+            height:100vh;
+        }
+        .flex{
+            display:flex;
+            justify-content: center;
+        }
+        .searchcontainer{
+            border:1px solid #fff;
+            border-radius: 15px;
+        }
+        .box{
+            width:60vw;
+            color:#121212;
+            display:flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .search{
+            width:60vw;
+            height:1.5rem;
+        }
+        .box h1{
+            text-align:center;
+        }
+        .box span{
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <span class="back"></span>
+    <span class="back-touka"></span>
+    <div class="center">
+        <div class="flex">
+            <div class="searchcontainer">
+                <div class="box">
+                    <h1>なんかちゅーぶviewer</h1><br>
+                    <video controls id="video" style="max-width:500px;max-height: 80vh;"></video><br>
+                    <span>
+                        画質：<select type="dropdown" id="vq"></select><br>
+                        音質：<select type="dropdown" id="aq"></select><br>
+                        <button onClick="hozon()">保存</button>※リロードされます
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    const d = document;
+    let vq = d.getElementById("vq");
+    let aq = d.getElementById("aq");
+    let vid = d.getElementById("video");
+    let aud = d.createElement("audio");
+    let formats = {{formats}};
+    let videoformats = {};
+    let audioformats = {};
+    formats.forEach((e, n) => {
+        if (e.format_note != undefined) {
+            if (e.format_note.indexOf("p") != -1){
+                videoformats[e.format_note] = e.url;
+            }
+            if (e.format_note == "medium" || e.format_note == "low"){
+                audioformats[e.format_note+n.toString()] = e.url;
+            }
+        }
+    });
+    videoformats = Object.entries(videoformats);
+    videoformats.forEach((p) => {
+        let op = d.createElement("option");
+        op.innerHTML = p[0];
+        vq.appendChild(op);
+    });
+    audioformats = Object.entries(audioformats);
+    audioformats.forEach((p) => {
+        let op = d.createElement("option");
+        op.innerHTML = p[0];
+        aq.appendChild(op);
+    });
+    var playb;
+    function hozon(){
+        let current = vid.currentTime;
+        aud.src = audioformats[audioformats.findIndex((search) => search[0].indexOf(aq.value) != -1)][1];
+        vid.src = videoformats[videoformats.findIndex((search) => search[0].indexOf(vq.value) != -1)][1];
+        vid.currentTime = current;
+    }
+    hozon();
+    vid.addEventListener("play",play);
+    vid.addEventListener("pause", pause);
+    function play(){
+        aud.play();
+        playb = setInterval(function(){
+                if (vid.readyState < 3){
+                    aud.pause();
+                } else {
+                    if (aud.paused){
+                        aud.play();
+                    }
+                }
+                if (aud.readyState < 3){
+                    vid.pause();
+                } else {
+                    if (vid.paused){
+                        vid.play();
+                    }
+                }
+                if (Math.abs(vid.currentTime - aud.currentTime) > 0.3){
+                    aud.currentTime = vid.currentTime;
+                }
+            }, 10);
+    }
+    function pause(){
+        clearTimeout(playb);
+        vid.pause();
+        aud.pause();
+    }
+</script>
