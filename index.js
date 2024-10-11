@@ -119,12 +119,6 @@ const server = http.createServer(async (request, response) => {
                 break;
             case "/watch":
                 let outform = {};
-                fetch(proxygeturl)
-                .then(r => r.json())
-                .then((d) => {
-                    proxy = d.proxy;
-                })
-                .catch((e) => {console.error(e)});
                 if (urls.searchParams.get("v") == null || urls.searchParams.get("v").length >= 50){
                     response.writeHead(207, {
                         "Content-Type": "text/html"
