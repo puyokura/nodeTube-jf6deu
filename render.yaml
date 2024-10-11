@@ -1,0 +1,8 @@
+services:
+ - name: teset
+   plan: free
+   type: web
+   runtime: node
+   branch: main
+   buildCommand: wget https://github.com/yt-dlp/yt-dlp/releases/download/2024.09.27/yt-dlp && npm install abort-controller handlebars http
+   startCommand: node ./index.js
