@@ -1,3 +1,7 @@
-"dependencies": {
-  "yt-dlp": "github:yt-dlp/yt-dlp"
+{
+  "name": "your-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "yt-dlp": "github:yt-dlp/yt-dlp"
+  }
 }
