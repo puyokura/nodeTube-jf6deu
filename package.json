@@ -1,7 +1,12 @@
 {
-  "name": "your-project",
+  "name": "nodeTube-jf6deu",
   "version": "1.0.0",
+  "main": "index.js",
   "dependencies": {
-    "yt-dlp": "github:yt-dlp/yt-dlp"
+    "yt-dlp": "github:yt-dlp/yt-dlp",
+    "express": "^4.17.1"
+  },
+  "scripts": {
+    "start": "node index.js"
   }
 }
